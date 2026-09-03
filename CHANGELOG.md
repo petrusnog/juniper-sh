@@ -2,6 +2,20 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
+## [2.1.0] - 2026-09-03
+
+### 🌿 Juniper Chat - Integração com IA (Ollama)
+
+#### ✨ Adicionado
+- Comando `chat` (`commands/chat.sh`) para conversar diretamente com a Juniper
+- Integração com **Ollama** (modelo `llama3.1`) para respostas geradas por IA localmente
+- Personalidade dedicada da Juniper embutida no prompt de sistema (mentora técnica, dev, cybersec e música)
+- Seção "🧠 Cérebro da Juniper (Ollama)" no README.md com passo a passo de instalação do Ollama, download do modelo, dependência do `jq` e verificação do serviço
+
+#### 📦 Dependências
+- Requer `jq` instalado para processar as respostas JSON da API do Ollama
+- Requer o serviço do Ollama rodando localmente em `http://localhost:11434`
+
 ## [2.0.0] - 2026-08-28
 
 ### 🎉 Refatoração Completa - Arquitetura Modular

@@ -149,6 +149,65 @@ echo -e "\n# Juniper - Git Automation Toolkit\n[ -f ~/.juniper/juniper.sh ] && s
 echo -e "\n# Juniper - Git Automation Toolkit\n[ -f ~/.juniper/juniper.sh ] && source ~/.juniper/juniper.sh" >> ~/.zshrc && source ~/.zshrc
 ```
 
+## 🧠 Cérebro da Juniper (Ollama)
+
+Para que a Juniper funcione como sua assistente inteligente, o projeto utiliza o **Ollama** para rodar LLMs localmente. Siga os passos abaixo para configurar o motor de IA:
+
+### 1️⃣ Instalação do Ollama
+
+**Linux:**
+
+Execute o comando de instalação rápida via terminal:
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+**Windows / macOS:**
+
+Baixe o instalador oficial em [ollama.com](https://ollama.com/).
+
+### 2️⃣ Download do Modelo
+
+A Juniper foi calibrada para utilizar o **Llama 3.1 (8B)**, que oferece o melhor equilíbrio entre inteligência e performance para GPUs com 8GB de VRAM (como a RX 590).
+
+No terminal, execute:
+```bash
+ollama run llama3.1
+```
+
+Este comando irá baixar o modelo (aprox. 4.7GB) e iniciar o chat. Você pode fechar o chat com `/bye` após a conclusão do download.
+
+### 3️⃣ Dependências de Sistema
+
+Para que o script de integração (`chat.sh`) consiga processar as respostas da IA, é obrigatório ter o `jq` instalado para a manipulação de JSON.
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update && sudo apt install jq -y
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S jq
+```
+
+**macOS (Homebrew):**
+```bash
+brew install jq
+```
+
+### 4️⃣ Verificação de Status
+
+Certifique-se de que o serviço do Ollama está rodando em background. Você pode testar a API local com o comando:
+```bash
+curl http://localhost:11434
+```
+
+Se receber a mensagem `Ollama is running`, a Juniper está pronta para processar seus comandos:
+```bash
+juniper chat "Como faço esse loop em ZSH?"
+```
+
 ## 🎯 Arquitetura Modular
 
 ### Comandos (`commands/`)
@@ -269,6 +328,12 @@ juniper --version
 Exibe ajuda dos comandos
 ```bash
 juniper help
+```
+
+### `chat`
+Conversa direta com a Juniper via Ollama (requer configuração em [🧠 Cérebro da Juniper (Ollama)](#-cérebro-da-juniper-ollama))
+```bash
+juniper chat "Como faço esse loop em ZSH?"
 ```
 
 ## 🔧 Vantagens da Arquitetura Modular
