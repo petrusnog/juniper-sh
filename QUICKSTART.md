@@ -35,14 +35,17 @@ cp ~/.juniper/commands/template.sh ~/.juniper/commands/meucomando.sh
 
 ### 3️⃣ Recarregue
 ```bash
-source ~/.juniper.sh
+source ~/.juniper/juniper.sh
 juniper meucomando
 ```
 
 ## 🎯 Estrutura de Arquivos
 
+> ⚠️ O projeto precisa estar em `~/.juniper` (a home reconhecida pelo seu terminal), senão o comando `juniper` não é encontrado.
+
 ```
 ~/.juniper/
+├── juniper.sh            ← Ponto de entrada, source no .bashrc/.zshrc
 ├── commands/           ← Adicione seus comandos aqui
 │   ├── template.sh     ← Use este como base
 │   ├── gitgrep.sh
@@ -79,7 +82,7 @@ cat ~/.juniper/README.md
 Se algo não funcionar:
 ```bash
 # 1. Recarregue o shell
-source ~/.juniper.sh
+source ~/.juniper/juniper.sh
 
 # 2. Verifique se o arquivo existe
 ls -la ~/.juniper/commands/
@@ -104,7 +107,7 @@ gitlog_help() {
 EOF
 
 # Recarregar
-source ~/.juniper.sh
+source ~/.juniper/juniper.sh
 
 # Usar
 juniper gitlog 5

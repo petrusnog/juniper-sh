@@ -5,8 +5,8 @@
 ## 📂 Estrutura do Projeto
 
 ```
-~/.juniper.sh              # Script principal (ponto de entrada)
-~/.juniper/
+~/.juniper/                  # Pasta principal (precisa ficar na home do usuário)
+  ├── juniper.sh           # Script principal (ponto de entrada)
   ├── commands/            # Comandos disponíveis (um por arquivo)
   │   ├── gitgrep.sh       # Comando de busca em commits
   │   ├── deployfeature.sh # Comando de deploy automatizado
@@ -24,7 +24,21 @@
 
 Para usar o comando `juniper` em qualquer lugar do terminal (Linux, WSL ou Git Bash), siga os passos abaixo:
 
-### 1️⃣ Identifique seu Shell
+### 1️⃣ Posicione o projeto na pasta home
+
+Os scripts do Juniper esperam encontrar o projeto em `~/.juniper` (a home reconhecida pelo seu terminal). Depois de clonar o repositório em qualquer caminho, mova-o (ou clone diretamente) para lá:
+
+```bash
+# Se você já clonou em outro lugar, apenas mova a pasta:
+mv /caminho/onde/voce/clonou/juniper-sh ~/.juniper
+
+# Ou clone diretamente no destino correto:
+git clone <url-do-repositorio> ~/.juniper
+```
+
+> ⚠️ No WSL e no Git Bash (Windows), `~` aponta para a home reconhecida pelo terminal (geralmente `C:\Users\<usuario>`), não necessariamente para onde você guarda seus projetos. Confirme o caminho com `echo ~` antes de mover a pasta.
+
+### 2️⃣ Identifique seu Shell
 
 Verifique qual shell você está usando:
 ```bash
@@ -36,7 +50,7 @@ Resultado comum:
 - `/bin/zsh` → Use `.zshrc`
 - `/usr/bin/zsh` → Use `.zshrc`
 
-### 2️⃣ Adicione o Juniper ao seu Shell
+### 3️⃣ Adicione o Juniper ao seu Shell
 
 Escolha o comando apropriado para seu shell:
 
@@ -44,17 +58,17 @@ Escolha o comando apropriado para seu shell:
 ```bash
 echo "" >> ~/.bashrc
 echo "# Juniper - Git Automation Toolkit" >> ~/.bashrc
-echo "[ -f ~/.juniper.sh ] && source ~/.juniper.sh" >> ~/.bashrc
+echo "[ -f ~/.juniper/juniper.sh ] && source ~/.juniper/juniper.sh" >> ~/.bashrc
 ```
 
 #### Para Zsh (Oh My Zsh, etc):
 ```bash
 echo "" >> ~/.zshrc
 echo "# Juniper - Git Automation Toolkit" >> ~/.zshrc
-echo "[ -f ~/.juniper.sh ] && source ~/.juniper.sh" >> ~/.zshrc
+echo "[ -f ~/.juniper/juniper.sh ] && source ~/.juniper/juniper.sh" >> ~/.zshrc
 ```
 
-### 3️⃣ Recarregue o Shell
+### 4️⃣ Recarregue o Shell
 
 #### Para Bash:
 ```bash
@@ -68,7 +82,7 @@ source ~/.zshrc
 
 Ou simplesmente feche e abra um novo terminal.
 
-### 4️⃣ Teste a Instalação
+### 5️⃣ Teste a Instalação
 
 ```bash
 juniper --version
@@ -92,10 +106,11 @@ Arquitetura Modular
 **Problema:** Comando `juniper` não encontrado após instalação
 
 **Soluções:**
-1. Verifique se o arquivo existe:
+1. Verifique se o projeto está na pasta correta:
    ```bash
-   ls -la ~/.juniper.sh
+   ls -la ~/.juniper/juniper.sh
    ```
+   Se não existir, o projeto ainda não foi movido para `~/.juniper` (veja o passo 1️⃣ acima).
 
 2. Verifique se foi adicionado ao arquivo correto:
    ```bash
@@ -109,7 +124,7 @@ Arquitetura Modular
 
 4. Teste o script manualmente:
    ```bash
-   source ~/.juniper.sh
+   source ~/.juniper/juniper.sh
    juniper --version
    ```
 
@@ -117,19 +132,21 @@ Arquitetura Modular
 
 **Solução:**
 ```bash
-chmod +x ~/.juniper.sh
+chmod +x ~/.juniper/juniper.sh
 ```
 
 ### 🚀 Instalação Rápida (Uma Linha)
 
+> Pressupõe que o projeto já foi movido para `~/.juniper` (passo 1️⃣).
+
 #### Bash:
 ```bash
-echo -e "\n# Juniper - Git Automation Toolkit\n[ -f ~/.juniper.sh ] && source ~/.juniper.sh" >> ~/.bashrc && source ~/.bashrc
+echo -e "\n# Juniper - Git Automation Toolkit\n[ -f ~/.juniper/juniper.sh ] && source ~/.juniper/juniper.sh" >> ~/.bashrc && source ~/.bashrc
 ```
 
 #### Zsh:
 ```bash
-echo -e "\n# Juniper - Git Automation Toolkit\n[ -f ~/.juniper.sh ] && source ~/.juniper.sh" >> ~/.zshrc && source ~/.zshrc
+echo -e "\n# Juniper - Git Automation Toolkit\n[ -f ~/.juniper/juniper.sh ] && source ~/.juniper/juniper.sh" >> ~/.zshrc && source ~/.zshrc
 ```
 
 ## 🎯 Arquitetura Modular
@@ -191,7 +208,7 @@ EOF
 
 4. **Recarregue:**
    ```bash
-   source ~/.juniper.sh
+   source ~/.juniper/juniper.sh
    ```
 
 ### Método 2: Do Zero
@@ -223,7 +240,7 @@ EOF
 
 4. **Recarregue o shell ou execute:**
    ```bash
-   source ~/.juniper.sh
+   source ~/.juniper/juniper.sh
    ```
 
 ## 🎨 Comandos Disponíveis

@@ -14,8 +14,8 @@ version_run() {
    Data: 2026-08-27
    
    📂 Estrutura:
-   ~/.juniper.sh              # Ponto de entrada
    ~/.juniper/
+     ├── juniper.sh           # Ponto de entrada
      ├── commands/            # Comandos modulares
      ├── core/                # Sistema core
      └── utils/               # Utilitários (futuro)
