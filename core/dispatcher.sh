@@ -42,8 +42,10 @@ _juniper_dispatch() {
     # Tenta executar o comando
     local run_func="${command}_run"
     if declare -f "$run_func" > /dev/null; then
+        _juniper_log_info "Comando executado: $command $*"
         $run_func "$@"
     else
+        _juniper_log_error "Comando desconhecido: $command $*"
         echo "❌ Comando desconhecido: $command"
         echo ""
         help_run

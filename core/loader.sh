@@ -8,6 +8,9 @@
 _juniper_init() {
     local juniper_home="$HOME/.juniper"
     
+    # Carrega sistema de logs
+    [ -f "$juniper_home/core/logger.sh" ] && source "$juniper_home/core/logger.sh"
+    
     # Carrega dispatcher
     [ -f "$juniper_home/core/dispatcher.sh" ] && source "$juniper_home/core/dispatcher.sh"
     
