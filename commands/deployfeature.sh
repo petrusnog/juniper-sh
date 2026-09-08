@@ -57,27 +57,48 @@ _apply_commit_to_branch() {
 deployfeature_run() {
     if [ -z "$1" ] || [ -z "$2" ]; then
         echo "Uso: juniper deployfeature <id-feature> <mensagem-do-commit>"
+        echo "       juniper deployfeature <id-feature> <hash> --hash"
         echo "Exemplo: juniper deploy 4911 'Fix: corrige bug no login'"
+        echo "Exemplo: juniper deploy 4911 11b81fbe88ed7867d2759037b9406c39f60666f1 --hash"
         return 1
     fi
     
     local feature_id="$1"
-    local commit_msg="$2"
+    local second_arg="$2"
+    local use_hash_mode=false
+    local commit_hash
+    
+    if [ "$3" = "--hash" ]; then
+        use_hash_mode=true
+    fi
+    
     local current_branch=$(git branch --show-current)
     local has_errors=false
     
-    # Cria o commit inicial
-    echo "📝 Adicionando arquivos..."
-    git add .
-    
-    echo "💾 Fazendo commit: $commit_msg"
-    if ! git commit -m "$commit_msg"; then
-        echo "❌ Erro ao fazer commit"
-        return 1
+    if [ "$use_hash_mode" = true ]; then
+        # Valida se o hash informado existe
+        if ! git rev-parse --verify "${second_arg}^{commit}" >/dev/null 2>&1; then
+            echo "❌ Hash inválido ou não encontrado: ${second_arg}"
+            return 1
+        fi
+        commit_hash=$(git rev-parse "$second_arg")
+        echo "🔗 Utilizando commit existente: $commit_hash"
+    else
+        local commit_msg="$second_arg"
+        
+        # Cria o commit inicial
+        echo "📝 Adicionando arquivos..."
+        git add .
+        
+        echo "💾 Fazendo commit: $commit_msg"
+        if ! git commit -m "$commit_msg"; then
+            echo "❌ Erro ao fazer commit"
+            return 1
+        fi
+        
+        commit_hash=$(git rev-parse HEAD)
+        echo "✅ Commit criado: $commit_hash"
     fi
-    
-    local commit_hash=$(git rev-parse HEAD)
-    echo "✅ Commit criado: $commit_hash"
     
     # Atualiza referências remotas
     echo "\n🔍 Buscando branches remotas..."
@@ -118,5 +139,9 @@ deployfeature_help() {
   deployfeature, deploy <id-feature> <mensagem>
       Cria commit e aplica automaticamente nas branches develop e stage
       Exemplo: juniper deploy 4911 "Fix: corrige bug no login"
+
+  deployfeature, deploy <id-feature> <hash> --hash
+      Aplica (cherry-pick e push) um commit já existente nas branches develop e stage
+      Exemplo: juniper deploy 4911 11b81fbe88ed7867d2759037b9406c39f60666f1 --hash
 EOF
 }
